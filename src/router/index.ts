@@ -1,20 +1,30 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
-    //     {
-    //         path: '/',
-    //         redirect: '/combo',
-    //     },
-    //     {
-    //         path: '/login',
-    //         name: 'Login',
-    //         meta: {
-    //             title: '用户登录',
-    //             keepAlive: true,
-    //             avoidAuth: true,
-    //         },
-    //         component: () => import('@/pages/login/login.vue'),
-    //     },
+    {
+        path: '/',
+        redirect: '/home',
+    },
+    {
+        path: '/home',
+        name: 'Home',
+        meta: {
+            title: '主页',
+            keepAlive: true,
+            avoidAuth: true,
+            navTransparent: true,
+        },
+        component: () => import('@/views/home/index.vue'),
+    },
+    {
+        path: '/design',
+        name: 'Design',
+        meta: {
+            title: '设计界面',
+            keepAlive: true,
+        },
+        component: () => import('@/views/design/index.vue'),
+    },
 ];
 
 const router = createRouter({
@@ -25,17 +35,7 @@ const router = createRouter({
 // 路由守卫
 
 router.beforeEach((to, from, next) => {
-    // const userStore = useAdminStore();
-    // const isAuthenticated = userStore.userName;
-    // if (!to.matched.some((record) => record.meta.avoidAuth)) {
-    //     if (!isAuthenticated) {
-    //         next('/login');
-    //     } else {
-    //         next();
-    //     }
-    // } else {
-    //     next();
-    // }
+    next();
 });
 
 export default router;

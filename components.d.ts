@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
     export interface GlobalComponents {
         ElAside: typeof import('element-plus/es')['ElAside'];
+        ElAvatar: typeof import('element-plus/es')['ElAvatar'];
         ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb'];
         ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem'];
         ElButton: typeof import('element-plus/es')['ElButton'];
@@ -37,6 +38,7 @@ declare module 'vue' {
         ElTable: typeof import('element-plus/es')['ElTable'];
         ElTableColumn: typeof import('element-plus/es')['ElTableColumn'];
         ElTimePicker: typeof import('element-plus/es')['ElTimePicker'];
+        ElTooltip: typeof import('element-plus/es')['ElTooltip'];
         ElUpload: typeof import('element-plus/es')['ElUpload'];
         HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
         IEpAvatar: typeof import('~icons/ep/avatar')['default'];
@@ -44,16 +46,20 @@ declare module 'vue' {
         IEpEditPen: typeof import('~icons/ep/edit-pen')['default'];
         IEpHouse: typeof import('~icons/ep/house')['default'];
         IEpLock: typeof import('~icons/ep/lock')['default'];
+        IEpMessage: typeof import('~icons/ep/message')['default'];
+        IEpMoon: typeof import('~icons/ep/moon')['default'];
         IEpPieChart: typeof import('~icons/ep/pie-chart')['default'];
         IEpPlus: typeof import('~icons/ep/plus')['default'];
         IEpSearch: typeof import('~icons/ep/search')['default'];
         IEpStopwatch: typeof import('~icons/ep/stopwatch')['default'];
+        IEpSunny: typeof import('~icons/ep/sunny')['default'];
         IEpTickets: typeof import('~icons/ep/tickets')['default'];
         IEpUpload: typeof import('~icons/ep/upload')['default'];
         IEpUser: typeof import('~icons/ep/user')['default'];
         LeftNav: typeof import('./src/components/left-nav.vue')['default'];
         RouterLink: typeof import('vue-router')['RouterLink'];
         RouterView: typeof import('vue-router')['RouterView'];
+        ThemeSwitch: typeof import('./src/components/theme-switch.vue')['default'];
         TopNav: typeof import('./src/components/top-nav.vue')['default'];
     }
 }

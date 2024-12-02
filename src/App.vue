@@ -1,9 +1,13 @@
 <template>
-    <div class="center text-3xl font-bold w-fit">Hello，World</div>
+    <layout>
+        <router-view />
+    </layout>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import layout from './layout/layout.vue';
+</script>
 
 <style lang="scss">
-@import './styles/common.scss';
+@use './styles/common.scss';
 </style>

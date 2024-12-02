@@ -58,6 +58,11 @@ export default defineConfig({
         postcss: {
             plugins: [require('tailwindcss'), require('autoprefixer')],
         },
+        preprocessorOptions: {
+            scss: {
+                silenceDeprecations: ['legacy-js-api', 'color-functions'],
+            },
+        },
     },
     server: {
         port: 8080, //启动端口
