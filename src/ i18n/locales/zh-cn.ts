@@ -15,4 +15,8 @@ export default {
         subtitle: 'AI 智能简历助手',
         desc: '「简小历」不只是一个简历助手，而是通过AI 去帮助工程师们制造简约好看的简历，让别人更好的认识我们。',
     },
+    detail: {
+        preview: '预览',
+        download: '下载',
+    },
 };

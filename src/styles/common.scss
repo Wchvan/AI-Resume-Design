@@ -20,6 +20,10 @@ body {
     }
 }
 
+svg {
+    @include svg_color();
+}
+
 .cursor-point {
     cursor: pointer;
 }

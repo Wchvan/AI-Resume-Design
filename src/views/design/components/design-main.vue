@@ -6,7 +6,7 @@
 
 <style lang="scss" scoped>
 .main {
-    width: 50%;
+    flex: 1;
     height: 100%;
 }
 </style>

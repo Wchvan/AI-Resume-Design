@@ -14,6 +14,13 @@
     }
 }
 
+@mixin svg_color() {
+    fill: $font-color-light;
+    [data-theme='dark'] & {
+        fill: $font-color-dark;
+    }
+}
+
 @mixin font_theme_color() {
     color: $font-color-theme-light;
     [data-theme='dark'] & {
