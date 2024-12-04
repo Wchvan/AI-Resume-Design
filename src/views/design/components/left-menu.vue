@@ -1,7 +1,9 @@
 <template>
     <div class="menu" :class="shrink && 'shrink'">
         <div class="menu-top">
-            <div v-show="!shrink" class="menu-top__text">XXX 的简历</div>
+            <div v-show="!shrink" class="menu-top__text">
+                {{ templates[0].data[0].name }} {{ $t('design.leftMenuTitle') }}
+            </div>
             <div class="menu-top__label" @click="shrink = !shrink">
                 <leftSvg :size="20" :class="shrink && 'rotate-180'" />
             </div>
@@ -27,10 +29,10 @@
 
         <div v-show="!shrink" class="btn-group">
             <el-button class="btn-group-item" style="color: rgb(0, 60, 255)">{{
-                $t('detail.preview')
+                $t('design.preview')
             }}</el-button>
             <el-button class="btn-group-item" color="rgba(121, 72, 234, 1)">{{
-                $t('detail.download')
+                $t('design.download')
             }}</el-button>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <template>
     <div class="design">
         <left-menu :templates="templates"></left-menu>
-        <design-main></design-main>
+        <design-main :templates="templates"></design-main>
         <right-menu></right-menu>
     </div>
 </template>
