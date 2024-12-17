@@ -19,5 +19,7 @@ export default {
         preview: 'Preview',
         download: 'Download',
         leftMenuTitle: "'s resume",
+        styleConfiguration: 'Style Configuration',
+        dataConfiguration: 'Data Configuration',
     },
 };

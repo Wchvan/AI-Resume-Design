@@ -19,5 +19,7 @@ export default {
         preview: '预览',
         download: '下载',
         leftMenuTitle: '的简历',
+        styleConfiguration: '样式设置',
+        dataConfiguration: '数据配置',
     },
 };

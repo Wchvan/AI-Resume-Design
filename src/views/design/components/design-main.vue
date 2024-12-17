@@ -1,7 +1,11 @@
 <template>
     <div class="main">
         <div id="print">
-            <div v-show="props.templates[0].display" class="header">
+            <div
+                v-show="props.templates[0].display"
+                class="header"
+                @click="editTemplate(0)"
+            >
                 <img
                     class="header-logo"
                     :src="props.templates[0].data[0].logo"
@@ -24,10 +28,11 @@
                 />
             </div>
             <div
-                v-for="template in templates.slice(1)"
+                v-for="(template, index) in templates.slice(1)"
                 v-show="template.display"
                 :key="template.name"
                 class="content"
+                @click="editTemplate(index + 1)"
             >
                 <div class="content-header">
                     <div class="content-header-logo">
@@ -73,6 +78,12 @@ import { ref } from 'vue';
 const props = defineProps<{
     templates: Template[];
 }>();
+const emits = defineEmits(['editTemplate']);
+
+function editTemplate(index: number) {
+    console.log('index');
+    emits('editTemplate', index);
+}
 </script>
 
 <style lang="scss" scoped>
@@ -100,6 +111,7 @@ const props = defineProps<{
             justify-content: space-between;
             width: 100%;
             height: 100px;
+            cursor: pointer;
 
             &-logo {
                 height: 40px;
@@ -119,6 +131,7 @@ const props = defineProps<{
 
         .content {
             margin: 20px 0;
+            cursor: pointer;
 
             &-header {
                 display: flex;

@@ -46,7 +46,6 @@ import { ref } from 'vue';
 const props = defineProps<{
     templates: Template[];
 }>();
-
 const shrink = ref<boolean>(false);
 </script>
 
