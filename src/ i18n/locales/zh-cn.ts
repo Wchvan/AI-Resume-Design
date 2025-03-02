@@ -34,6 +34,8 @@ export default {
         width: '宽度',
         height: '高度',
         color: '字体颜色',
+        image: '下载为图片',
+        pdf: '下载为PDF',
         'font-size': '字体大小',
         'font-weight': '字体厚度',
         'font-color': '字体颜色',

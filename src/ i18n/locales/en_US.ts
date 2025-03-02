@@ -34,6 +34,8 @@ export default {
         width: 'Width',
         height: 'Height',
         color: 'Font Color',
+        image: 'Image',
+        pdf: 'PDF',
         'font-size': 'Font Size',
         'font-weight': 'Font Weight',
         'font-color': 'Font Color',

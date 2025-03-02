@@ -28,25 +28,96 @@
         </div>
 
         <div v-show="!shrink" class="btn-group">
-            <el-button class="btn-group-item" style="color: rgb(0, 60, 255)">{{
-                $t('design.preview')
-            }}</el-button>
-            <el-button class="btn-group-item" color="rgba(121, 72, 234, 1)">{{
-                $t('design.download')
-            }}</el-button>
+            <el-button
+                class="btn-group-item"
+                color="rgb(0, 60, 255)"
+                @click="preview"
+                >{{ $t('design.preview') }}</el-button
+            >
+            <el-button
+                class="btn-group-item"
+                color="rgba(121, 72, 234, 1)"
+                @click="downloadDialogVisible = true"
+                >{{ $t('design.download') }}</el-button
+            >
         </div>
+
+        <el-dialog
+            v-model="previewDialogVisible"
+            :title="$t('design.preview')"
+            center
+        >
+            <img w-full :src="imageUrl" alt="Preview Image" />
+        </el-dialog>
+
+        <el-dialog v-model="downloadDialogVisible" width="600px">
+            <template #header>
+                <div class="download-dialog-header">
+                    {{ $t('design.download') }}
+                </div>
+            </template>
+            <div class="download-dialog">
+                <div
+                    class="download-dialog-item"
+                    @click="download(DownloadType.Image)"
+                >
+                    <i-ep-picture class="download-dialog-item__icon" />
+                    <span class="download-dialog-item__text">{{
+                        $t('design.image')
+                    }}</span>
+                </div>
+                <div
+                    class="download-dialog-item"
+                    @click="download(DownloadType.Pdf)"
+                >
+                    <i-ep-document class="download-dialog-item__icon" />
+                    <span class="download-dialog-item__text">{{
+                        $t('design.pdf')
+                    }}</span>
+                </div>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
 <script setup lang="ts">
 import leftSvg from '@/icon/left.vue';
 import { Template } from '@/schema/default';
+import { downloadFileByUrl, generateImage, generatePdf } from '@/utils/dom';
 import { ref } from 'vue';
 
 const props = defineProps<{
     templates: Template[];
 }>();
 const shrink = ref<boolean>(false);
+
+// preview
+const previewDialogVisible = ref(false);
+const imageUrl = ref('');
+const preview = async () => {
+    const printEle = document.getElementById('print');
+    if (!printEle) return;
+    imageUrl.value = await generateImage(printEle);
+    previewDialogVisible.value = true;
+};
+
+// download
+const downloadDialogVisible = ref(false);
+enum DownloadType {
+    'Image' = 0,
+    'Pdf' = 1,
+}
+const download = async (type: DownloadType) => {
+    const printEle = document.getElementById('print');
+    if (!printEle) return;
+    if (type == DownloadType.Image) {
+        imageUrl.value = await generateImage(printEle);
+        downloadFileByUrl(imageUrl.value);
+    }
+    if (type == DownloadType.Pdf) {
+        await generatePdf(printEle);
+    }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -123,6 +194,44 @@ const shrink = ref<boolean>(false);
             border-radius: 15px;
             height: 40px;
             width: 80px;
+        }
+    }
+    .download-dialog-header {
+        color: #111;
+        font-size: 20px;
+        font-weight: 600;
+        padding: 0 10px 10px 10px;
+        border-bottom: 1px #ccc solid;
+    }
+
+    .download-dialog {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+
+        &-item {
+            margin: 20px;
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            background-color: rgba(103, 224, 152, 1);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+
+            &:first-child {
+                background-color: rgba(125, 172, 227, 1);
+            }
+
+            &__icon {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 10px;
+            }
         }
     }
 }
