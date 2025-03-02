@@ -1,14 +1,18 @@
 <template>
-    <div class="main">
-        <div id="print">
+    <div class="main" @click="editTemplate(-1)">
+        <div
+            id="print"
+            :style="{ 'border-top': `40px ${globalStyle['top-color']} solid` }"
+        >
             <div
                 v-show="props.templates[0].display"
                 class="header"
-                @click="editTemplate(0)"
+                @click.stop="editTemplate(0)"
             >
                 <img
                     class="header-logo"
                     :src="props.templates[0].data[0].logo"
+                    :style="props.templates[0].style.logo"
                 />
                 <div class="header-desc">
                     <div
@@ -17,7 +21,10 @@
                     >
                         {{ props.templates[0].data[0].name }}
                     </div>
-                    <div class="header-desc-contact">
+                    <div
+                        class="header-desc-contact"
+                        :style="props.templates[0].style.contact"
+                    >
                         {{ props.templates[0].data[0].phone }} |
                         {{ props.templates[0].data[0].email }}
                     </div>
@@ -25,6 +32,7 @@
                 <img
                     class="header-avatar"
                     :src="props.templates[0].data[0].avatar"
+                    :style="props.templates[0].style.avatar"
                 />
             </div>
             <div
@@ -32,16 +40,35 @@
                 v-show="template.display"
                 :key="template.name"
                 class="content"
-                @click="editTemplate(index + 1)"
+                @click.stop="editTemplate(index + 1)"
             >
                 <div class="content-header">
-                    <div class="content-header-logo">
+                    <div
+                        class="content-header-logo"
+                        :style="{
+                            background: globalStyle['icon-background-color'],
+                            width: globalStyle['icon-background-width'],
+                            height: globalStyle['icon-background-height'],
+                        }"
+                    >
                         <component
                             :is="template.icon"
                             class="content-header-logo__icon"
+                            :style="{
+                                color: globalStyle['icon-color'],
+                                width: globalStyle['icon-width'],
+                                height: globalStyle['icon-height'],
+                            }"
                         />
                     </div>
-                    <div class="content-header-title">
+                    <div
+                        class="content-header-title"
+                        :style="{
+                            'font-size': globalStyle['font-size'],
+                            'font-weight': globalStyle['font-weight'],
+                            color: globalStyle['font-color'],
+                        }"
+                    >
                         {{ template.name }}
                     </div>
                     <div class="content-header-line"></div>
@@ -55,14 +82,20 @@
                         v-if="!template.hideItemHeader"
                         class="content-item-header"
                     >
-                        <div class="content-item-header-title">
+                        <div
+                            class="content-item-header-title"
+                            :style="template.style.title"
+                        >
                             {{ data.title }}
                         </div>
-                        <div class="content-item-header-date">
+                        <div
+                            class="content-item-header-date"
+                            :style="template.style.date"
+                        >
                             {{ data.date }}
                         </div>
                     </div>
-                    <div class="content-item-desc">
+                    <div class="content-item-desc" :style="template.style.desc">
                         {{ data.desc }}
                     </div>
                 </div>
@@ -73,15 +106,14 @@
 
 <script setup lang="ts">
 import { Template } from '@/schema/default';
-import { ref } from 'vue';
 
 const props = defineProps<{
     templates: Template[];
+    globalStyle: Record<string, string>;
 }>();
 const emits = defineEmits(['editTemplate']);
 
 function editTemplate(index: number) {
-    console.log('index');
     emits('editTemplate', index);
 }
 </script>
@@ -97,13 +129,13 @@ function editTemplate(index: number) {
     padding: 100px 0;
     color: #111;
     overflow: auto;
+    cursor: pointer;
 
     #print {
         width: 800px;
         height: fit-content;
         background: #fff;
         padding: 20px;
-        border-top: 40px $blue-color solid;
         box-sizing: border-box;
 
         .header {
@@ -113,19 +145,10 @@ function editTemplate(index: number) {
             height: 100px;
             cursor: pointer;
 
-            &-logo {
-                height: 40px;
-            }
-
             &-desc {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-            }
-
-            &-avatar {
-                width: 80px;
-                height: 80px;
             }
         }
 
@@ -138,26 +161,14 @@ function editTemplate(index: number) {
                 align-items: center;
 
                 &-logo {
-                    width: 30px;
-                    height: 30px;
-                    background: $blue-color;
                     border-radius: 50%;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-
-                    &__icon {
-                        width: 20px;
-                        height: 20px;
-                        color: #fff;
-                    }
                 }
 
                 &-title {
                     margin-left: 5px;
-                    font-size: 20px;
-                    font-weight: 600;
-                    color: $blue-color;
                 }
 
                 &-line {

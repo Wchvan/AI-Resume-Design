@@ -1,7 +1,8 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
     <div class="menu">
         <div class="menu-title">
-            {{ props.templates[props.templateEditIndex].name }}
+            {{ menuTitle }}
         </div>
 
         <el-button-group class="menu-btns">
@@ -18,19 +19,125 @@
                 >{{ $t('design.dataConfiguration') }}</el-button
             >
         </el-button-group>
+
+        <!-- data configuration -->
+        <template v-if="dataMode">
+            <div v-if="templateEditIndex === -1" class="data">暂无数据</div>
+            <div v-else class="data">
+                <template
+                    v-for="(data, key) in templates[templateEditIndex].data"
+                    :key="key"
+                >
+                    <template v-for="(value, key) in data" :key="key">
+                        <div
+                            v-if="!['logo', 'avatar'].includes(key)"
+                            class="data-item"
+                        >
+                            <div class="data-item__label">
+                                {{ $t('design.' + key) }}：
+                            </div>
+                            <el-input
+                                v-if="key !== 'desc'"
+                                class="data-item__input"
+                                v-model="data[key]"
+                            />
+                            <el-input
+                                v-else
+                                autosize
+                                type="textarea"
+                                class="data-item__input"
+                                v-model="data[key]"
+                            />
+                        </div>
+
+                        <ImageUpload
+                            v-else
+                            :label="$t('design.' + key)"
+                            v-model:image="data[key]"
+                            :height="key === 'logo' ? 30 : 120"
+                            style="margin: 20px 0"
+                        ></ImageUpload>
+                    </template>
+                </template>
+            </div>
+        </template>
+
+        <!-- style configuration -->
+        <template v-else>
+            <div v-if="templateEditIndex === -1" class="data">
+                <template v-for="(value, key) in globalStyle" :key="key">
+                    <div class="style-item">
+                        <div class="style-item__label">
+                            {{ $t('design.' + key) }}：
+                        </div>
+                        <el-input
+                            v-if="!key.includes('color')"
+                            class="style-item__input"
+                            v-model="globalStyle[key]"
+                        />
+                        <div v-else class="style-item__input">
+                            <el-color-picker v-model="globalStyle[key]" />
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div v-else class="style">
+                <template
+                    v-for="(data, label) in templates[templateEditIndex].style"
+                    :key="label"
+                >
+                    <template v-for="(value, key) in data" :key="key">
+                        <div class="style-item">
+                            <div class="style-item__label">
+                                {{ $t('design.' + label) }} -
+                                {{ $t('design.' + key) }}：
+                            </div>
+                            <el-input
+                                v-if="key !== 'desc' && !key.includes('color')"
+                                class="style-item__input"
+                                v-model="data[key]"
+                            />
+                            <el-input
+                                v-else-if="!key.includes('color')"
+                                autosize
+                                type="textarea"
+                                class="style-item__input"
+                                v-model="data[key]"
+                            />
+                            <div v-else class="style-item__input">
+                                <el-color-picker v-model="data[key]" />
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </template>
     </div>
 </template>
 
 <script setup lang="ts">
 import { Template } from '@/schema/default';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
+
+const { t } = useI18n();
 
 const props = defineProps<{
     templates: Template[];
     templateEditIndex: number;
+    globalStyle: Record<string, string>;
 }>();
 
-const dataMode = ref<boolean>(true);
+const menuTitle = computed(() =>
+    props.templateEditIndex > -1
+        ? props.templates[props.templateEditIndex].name
+        : t('design.menuTitle'),
+);
+
+const dataMode = ref<boolean>(false);
+
+// profile
 </script>
 
 <style lang="scss" scoped>
@@ -65,6 +172,42 @@ const dataMode = ref<boolean>(true);
             width: 50%;
             height: 100%;
             border-radius: 16px;
+        }
+    }
+
+    .data {
+        width: 100%;
+        margin-top: 20px;
+
+        &-item {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+
+            &__label {
+                flex: 1;
+            }
+            &__input {
+                flex: 3;
+            }
+        }
+    }
+
+    .style {
+        width: 100%;
+        margin-top: 20px;
+
+        &-item {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+
+            &__label {
+                flex: 1;
+            }
+            &__input {
+                flex: 1;
+            }
         }
     }
 }

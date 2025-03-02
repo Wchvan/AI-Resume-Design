@@ -14,9 +14,9 @@ export type Template = {
     icon: Component;
     hideItemHeader?: boolean;
     data: Record<string, any>[];
-    style: Record<string, any>;
+    style: Record<string, Record<string, string>>;
 };
-export const defaultTemplates = ref<any>([
+export const defaultTemplates = ref<Template[]>([
     {
         name: '个人简介',
         display: true,
@@ -31,9 +31,23 @@ export const defaultTemplates = ref<any>([
             },
         ],
         style: {
+            logo: {
+                width: '140px',
+                height: '40px',
+            },
+            avatar: {
+                width: '80px',
+                height: '80px',
+            },
             name: {
                 'font-size': '24px',
                 'font-weight': '600',
+                color: '#111',
+            },
+            contact: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
             },
         },
     },
@@ -46,11 +60,28 @@ export const defaultTemplates = ref<any>([
                 title: '简小历大学',
                 date: '2021.09 - 2025.06',
                 desc: `【竞赛】第十四届中国大学生服务外包创新创业大赛国家三等奖
-                    【奖学金】XXXX大学标兵奖学金 
-                    【荣誉】XXX大学十大杰出青年志愿者
-                    【主修课程】计算机网络，数据结构与算法`,
+【奖学金】XXXX大学标兵奖学金 
+【荣誉】XXX大学十大杰出青年志愿者
+【主修课程】计算机网络，数据结构与算法`,
             },
         ],
+        style: {
+            title: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
+            },
+            date: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
+            },
+            desc: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
+            },
+        },
     },
     {
         name: '实习经历',
@@ -68,6 +99,23 @@ export const defaultTemplates = ref<any>([
 5. 参与编写与维护各个团队通用的代码，如播放器类、websocket的message处理控制等。`,
             },
         ],
+        style: {
+            title: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
+            },
+            date: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
+            },
+            desc: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
+            },
+        },
     },
     {
         name: '项目经历',
@@ -78,11 +126,28 @@ export const defaultTemplates = ref<any>([
                 title: 'Tesla',
                 date: '2021.09 - 2025.06',
                 desc: `【竞赛】第十四届中国大学生服务外包创新创业大赛国家三等奖
-                    【奖学金】XXXX大学标兵奖学金 
-                    【荣誉】XXX大学十大杰出青年志愿者
-                    【主修课程】计算机网络，数据结构与算法`,
+【奖学金】XXXX大学标兵奖学金 
+【荣誉】XXX大学十大杰出青年志愿者
+【主修课程】计算机网络，数据结构与算法`,
             },
         ],
+        style: {
+            title: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
+            },
+            date: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
+            },
+            desc: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
+            },
+        },
     },
     {
         name: '技能',
@@ -91,14 +156,19 @@ export const defaultTemplates = ref<any>([
         hideItemHeader: true,
         data: [
             {
-                title: 'Tesla',
-                date: '2021.09 - 2025.06',
                 desc: `【竞赛】第十四届中国大学生服务外包创新创业大赛国家三等奖
-                    【奖学金】XXXX大学标兵奖学金 
-                    【荣誉】XXX大学十大杰出青年志愿者
-                    【主修课程】计算机网络，数据结构与算法`,
+【奖学金】XXXX大学标兵奖学金 
+【荣誉】XXX大学十大杰出青年志愿者
+【主修课程】计算机网络，数据结构与算法`,
             },
         ],
+        style: {
+            desc: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
+            },
+        },
     },
     {
         name: '自我介绍',
@@ -108,10 +178,30 @@ export const defaultTemplates = ref<any>([
         data: [
             {
                 desc: `【竞赛】第十四届中国大学生服务外包创新创业大赛国家三等奖
-                    【奖学金】XXXX大学标兵奖学金 
-                    【荣誉】XXX大学十大杰出青年志愿者
-                    【主修课程】计算机网络，数据结构与算法`,
+【奖学金】XXXX大学标兵奖学金 
+【荣誉】XXX大学十大杰出青年志愿者
+【主修课程】计算机网络，数据结构与算法`,
             },
         ],
+        style: {
+            desc: {
+                'font-size': '16px',
+                'font-weight': '500',
+                color: '#111',
+            },
+        },
     },
 ]);
+
+export const defaultGlobalStyle = ref<Record<string, string>>({
+    'top-color': '#409eff',
+    'icon-background-color': '#409eff',
+    'icon-background-width': '30px',
+    'icon-background-height': '30px',
+    'icon-color': '#fff',
+    'icon-width': '20px',
+    'icon-height': '20px',
+    'font-size': '20px',
+    'font-weight': '600',
+    'font-color': '#409eff',
+});

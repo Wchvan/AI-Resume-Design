@@ -3,10 +3,12 @@
         <left-menu :templates="templates"></left-menu>
         <design-main
             :templates="templates"
+            :globalStyle="globalStyle"
             @edit-template="editTemplate"
         ></design-main>
         <right-menu
             :templates="templates"
+            :globalStyle="globalStyle"
             :template-edit-index="templateEditIndex"
         ></right-menu>
     </div>
@@ -16,14 +18,14 @@
 import leftMenu from './components/left-menu.vue';
 import rightMenu from './components/right-menu.vue';
 import designMain from './components/design-main.vue';
-import { defaultTemplates } from '@/schema/default';
+import { defaultGlobalStyle, defaultTemplates } from '@/schema/default';
 import { ref } from 'vue';
 
 const templates = defaultTemplates;
-const templateEditIndex = ref<number>(1);
+const templateEditIndex = ref<number>(-1);
+const globalStyle = defaultGlobalStyle;
 
 function editTemplate(index: number) {
-    console.log(index);
     templateEditIndex.value = index;
 }
 </script>

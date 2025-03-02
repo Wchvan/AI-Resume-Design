@@ -68,9 +68,9 @@ export default defineConfig({
         port: 8080, //启动端口
         proxy: {
             '/api': {
-                target: 'http://162.14.79.224/',
+                target: 'http://localhost:3000/',
                 changeOrigin: true,
-                rewrite: (path: string) => path.replace(/^\/api/, '/api'),
+                rewrite: (path: string) => path.replace(/^\/api/, ''),
             },
         },
     },
