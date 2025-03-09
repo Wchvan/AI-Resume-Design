@@ -1,4 +1,4 @@
-import { apiRes } from '@/interface/api.d';
+import { apiRes } from '@/interface';
 import { post } from './request';
 
 export type uploadFileResp = apiRes<{

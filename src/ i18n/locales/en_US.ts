@@ -7,13 +7,27 @@ export default {
     },
     header: {
         language: 'English',
-        Login: 'Login',
-        SignUp: 'Sign Up',
+        login: 'Login',
+        welcome: 'Welcome to Jian Xiaoli, ',
     },
     home: {
         explore: 'Explore',
         subtitle: 'AI Resume Design',
         desc: '「Jian Xiao Li」 is not just a resume assistant. Instead, it uses AI to help engineers create simple and good-looking resumes, enabling others to know us better.',
+    },
+    login: {
+        login: 'Login',
+        register: 'Register',
+        forgetPass: 'Forget Password ?',
+        haveAccount: 'Have Account',
+        haveAccountDesc: 'Please log in with your account.',
+        noAccount: 'Have No Account',
+        noAccountDesc:
+            'Please sign up to join us today and start your journey with us.',
+        username: 'Username',
+        password: 'Password',
+        check: 'Check Password',
+        captcha: 'Captcha',
     },
     design: {
         preview: 'Preview',

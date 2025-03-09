@@ -1,3 +1,4 @@
+import useUserStore from '@/store/user';
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
@@ -35,7 +36,13 @@ const router = createRouter({
 // 路由守卫
 
 router.beforeEach((to, from, next) => {
-    next();
+    const userStore = useUserStore();
+    if (to.meta.avoidAuth) {
+        return next();
+    } else if (userStore.username) {
+        return next();
+    }
+    return next('/home');
 });
 
 export default router;

@@ -19,11 +19,16 @@
 
 <script setup lang="ts">
 import Star from '@/assets/home/star.png';
+import useUserStore from '@/store/user';
+import eventBus from '@/utils/eventBus';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
 function goDetail() {
-    router.push('/design');
+    if (useUserStore().username) {
+        router.push('/design');
+    }
+    eventBus.emit('login', { path: '/design' });
 }
 </script>
 

@@ -1,5 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
-import type { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import type {
+    InternalAxiosRequestConfig,
+    AxiosResponse,
+    AxiosError,
+} from 'axios';
 import { ElMessage } from 'element-plus';
 // import useAdminStore from '@/store/admin/admin';
 import { useRouter } from 'vue-router';
@@ -31,7 +35,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
     (response: AxiosResponse) => {
         // 对响应数据做点什么
-        if (response.status !== 200) {
+        if (response.status.toString()[0] !== '2') {
             ElMessage({
                 type: 'error',
                 message: '网络请求错误',
@@ -46,9 +50,16 @@ axiosInstance.interceptors.response.use(
         }
         return response;
     },
-    (error: any) => {
+    (error: AxiosError) => {
         // 处理响应错误
-        return console.log(error);
+        const message = (error.response?.data as any)?.msg;
+        if (message) {
+            ElMessage({
+                type: 'error',
+                message,
+            });
+        }
+        return error.response;
     },
 );
 export default axiosInstance;

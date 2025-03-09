@@ -20,26 +20,58 @@
         <div v-show="!route.meta.navTransparent" class="theme header-item">
             <theme-switch></theme-switch>
         </div>
-        <div class="btn-group">
-            <el-button class="btn-group-item" style="color: rgb(0, 60, 255)">{{
-                $t('header.Login')
-            }}</el-button>
-            <el-button class="btn-group-item" color="rgba(121, 72, 234, 1)">{{
-                $t('header.SignUp')
-            }}</el-button>
+        <div v-if="!userStore.username" class="btn-group">
+            <el-button
+                class="btn-group-item"
+                color="rgba(121, 72, 234, 1)"
+                @click="visible = true"
+                >{{ $t('header.login') }}</el-button
+            >
+        </div>
+        <div v-else class="user">
+            <el-image :src="Avatar" class="user-avatar" />
+            <div class="user-desc">
+                <div class="user-desc-name">{{ userStore.username }}</div>
+                <div class="user-desc-welcome">
+                    {{ $t('header.welcome') + userStore.username }}
+                </div>
+            </div>
         </div>
     </div>
+    <LoginRegisterCard
+        v-model:visible="visible"
+        :path="toPath"
+    ></LoginRegisterCard>
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue';
+import { onMounted, onUnmounted, watch } from 'vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useWindowScroll } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import LOGO from '@/assets/logo.png';
 import themeSwitch from '@/components/theme-switch.vue';
+import LoginRegisterCard from '@/components/login-register-card.vue';
+import useUserStore from '@/store/user';
+import Avatar from '@/assets/avatar.png';
+import eventBus from '@/utils/eventBus';
+
 const route = useRoute();
+const userStore = useUserStore();
+
+// login
+const visible = ref(false);
+const toPath = ref('');
+onMounted(() => {
+    eventBus.on('login', (payload) => {
+        toPath.value = (payload as { path: string }).path;
+        visible.value = true;
+    });
+});
+onUnmounted(() => {
+    eventBus.off('login');
+});
 
 // i18n
 const I18n = useI18n();
@@ -120,6 +152,29 @@ watch(y, (newVal, oldVal) => {
             width: 80px;
         }
     }
+    .user {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        margin-right: 20px;
+
+        &-avatar {
+            height: 60%;
+            aspect-ratio: 1;
+            margin-right: 10px;
+        }
+
+        &-desc {
+            &-name {
+                font-size: 18px;
+                font-weight: bold;
+            }
+            &-welcome {
+                font-size: 10px;
+                @include font_color_secondary();
+            }
+        }
+    }
 }
 
 .nav-hidden {
@@ -134,10 +189,5 @@ watch(y, (newVal, oldVal) => {
 .transparent {
     background: transparent;
     box-shadow: unset;
-}
-
-.avatar {
-    width: 25px;
-    height: 25px;
 }
 </style>

@@ -18,10 +18,12 @@
 import leftMenu from './components/left-menu.vue';
 import rightMenu from './components/right-menu.vue';
 import designMain from './components/design-main.vue';
-import { defaultGlobalStyle, defaultTemplates } from '@/schema/default';
+import { defaultGlobalStyle } from '@/schema/default';
 import { ref } from 'vue';
+import useUserStore from '@/store/user';
 
-const templates = defaultTemplates;
+const userStore = useUserStore();
+const templates = userStore.resume;
 const templateEditIndex = ref<number>(-1);
 const globalStyle = defaultGlobalStyle;
 

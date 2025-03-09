@@ -1,5 +1,5 @@
 <template>
-    <my-header></my-header>
+    <my-header ref="myHeaderRef"></my-header>
     <main class="main">
         <slot></slot>
     </main>
