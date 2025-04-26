@@ -54,3 +54,11 @@ export namespace updateUser {
     };
     export type Res = apiRes<null>;
 }
+
+/* 修改简历 */
+export namespace fetchAIResponse {
+    export type Req = {
+        input: string;
+    };
+    export type Res = apiRes<string>;
+}

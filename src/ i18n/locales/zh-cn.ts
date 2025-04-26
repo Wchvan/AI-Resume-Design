@@ -31,6 +31,7 @@ export default {
     design: {
         preview: '预览',
         download: '下载',
+        AISuggest: 'AI 建议',
         leftMenuTitle: '的简历',
         menuTitle: '全局配置',
         styleConfiguration: '样式设置',

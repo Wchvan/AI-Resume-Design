@@ -32,6 +32,7 @@ export default {
     design: {
         preview: 'Preview',
         download: 'Download',
+        AISuggest: 'AI Suggest',
         leftMenuTitle: "'s resume",
         menuTitle: 'Global Configuration',
         styleConfiguration: 'Style Configuration',

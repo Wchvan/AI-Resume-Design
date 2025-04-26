@@ -12,7 +12,6 @@ axios.defaults.withCredentials = true;
 
 const axiosInstance: AxiosInstance = axios.create({
     baseURL: baseURL,
-    timeout: 20000,
     withCredentials: true,
 });
 

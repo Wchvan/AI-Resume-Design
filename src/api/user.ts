@@ -21,9 +21,15 @@ const updateUser = async (id: string, params: I.User.updateUser.Req) => {
     return res;
 };
 
+const fetchAIResponse = async (params: I.User.fetchAIResponse.Req) => {
+    const res = (await post(`/ai`, params)) as I.User.fetchAIResponse.Res;
+    return res;
+};
+
 export default class UserServer {
     static login = login;
     static register = register;
     static getCaptcha = getCaptcha;
     static updateUser = updateUser;
+    static fetchAIResponse = fetchAIResponse;
 }

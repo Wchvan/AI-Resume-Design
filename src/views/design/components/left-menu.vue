@@ -44,6 +44,12 @@
                 @click="downloadDialogVisible = true"
                 >{{ $t('design.download') }}</el-button
             >
+            <el-button
+                class="btn-group-item"
+                type="success"
+                @click="getAISuggest"
+                >{{ $t('design.AISuggest') }}</el-button
+            >
         </div>
 
         <el-dialog
@@ -81,14 +87,24 @@
                 </div>
             </div>
         </el-dialog>
+        <el-dialog
+            v-model="AISuggestVisible"
+            :title="$t('design.AISuggest')"
+            center
+        >
+            <div v-html="suggestDetail"></div>
+        </el-dialog>
     </div>
 </template>
 
 <script setup lang="ts">
+import UserServer from '@/api/user';
 import leftSvg from '@/icon/left.vue';
 import { iconList, Template } from '@/schema/default';
 import { downloadFileByUrl, generateImage, generatePdf } from '@/utils/dom';
+import { ElMessage } from 'element-plus';
 import { ref } from 'vue';
+import MarkdownIt from 'markdown-it';
 
 const props = defineProps<{
     templates: Template[];
@@ -121,6 +137,23 @@ const download = async (type: DownloadType) => {
     }
     if (type == DownloadType.Pdf) {
         await generatePdf(printEle);
+    }
+};
+// AI
+const AISuggestVisible = ref(false);
+const suggestDetail = ref('');
+const getAISuggest = async () => {
+    ElMessage({
+        type: 'info',
+        message: '请稍等一会，需要一些时间',
+    });
+    const res = await UserServer.fetchAIResponse({
+        input: `请你帮我对这个简历提个意见: ${JSON.stringify(props.templates)}`,
+    });
+    if (res.code === 200) {
+        AISuggestVisible.value = true;
+        const md = new MarkdownIt();
+        suggestDetail.value = md.render(res.data); //传入文本
     }
 };
 </script>
