@@ -1,10 +1,10 @@
 import UserServer from '@/api/user';
 import * as I from '@/interface/index.d';
 import { defaultTemplates, Template } from '@/schema/default';
-import { cloneDeep } from 'lodash-es';
+import { cloneDeep, isEqual } from 'lodash-es';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { EditJournal } from '@/utils/LRU';
 
 const useUserStore = defineStore(
     'user',
@@ -12,13 +12,22 @@ const useUserStore = defineStore(
         const username = ref<string>('');
         const access_token = ref<string>('');
         const id = ref<string>('');
+        const editJournal = new EditJournal();
         const resume = ref<Template[]>(cloneDeep(defaultTemplates.value));
+        if (editJournal.beforeSize == 0) {
+            const value = cloneDeep(defaultTemplates.value);
+            editJournal.put(value);
+        } else {
+            resume.value = editJournal.pop();
+        }
 
         const init = () => {
             username.value = '';
             access_token.value = '';
             id.value = '';
             resume.value = cloneDeep(defaultTemplates.value);
+            editJournal.clear();
+            saveResume();
         };
 
         const login = async (params: I.User.Login.Req) => {
@@ -28,6 +37,8 @@ const useUserStore = defineStore(
                 access_token.value = res.data.access_token;
                 id.value = res.data._id;
                 resume.value = JSON.parse(res.data.resume);
+                editJournal.clear();
+                saveResume();
             }
             return res;
         };
@@ -50,6 +61,27 @@ const useUserStore = defineStore(
             return res;
         };
 
+        const saveResume = async () => {
+            if (editJournal.put(cloneDeep(resume.value) && id.value)) {
+                UserServer.updateUser(id.value, {
+                    resume: JSON.stringify(resume.value),
+                });
+            }
+        };
+
+        const popResume = () => {
+            const val = editJournal.pop();
+            if (isEqual(val, resume.value)) {
+                resume.value = editJournal.pop();
+            } else {
+                resume.value = val;
+            }
+        };
+
+        const backResume = () => {
+            resume.value = editJournal.back();
+        };
+
         return {
             username,
             id,
@@ -58,13 +90,16 @@ const useUserStore = defineStore(
             logout,
             login,
             register,
+            saveResume,
+            backResume,
+            popResume,
         };
     },
     {
         persist: {
             storage: sessionStorage, //修改存储位置
             key: 'user', //设置存储的key
-            paths: ['username', 'access_token', 'resume'], //指定要长久化的字段
+            paths: ['username', 'access_token', 'resume', 'id'], //指定要长久化的字段
         },
     },
 );

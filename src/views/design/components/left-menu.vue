@@ -8,13 +8,17 @@
                 <leftSvg :size="20" :class="shrink && 'rotate-180'" />
             </div>
         </div>
+        <div v-show="!shrink" class="timer">还有 {{ timerNum }} 秒自动保存</div>
         <div
-            v-for="template in props.templates"
+            v-for="(template, index) in props.templates"
             :key="template.name"
             class="menu-item"
         >
             <div class="menu-item-title">
-                <component :is="template.icon" class="menu-item-title__icon" />
+                <component
+                    :is="iconList[index]"
+                    class="menu-item-title__icon"
+                />
                 <div v-show="!shrink" class="menu-item-title__text">
                     {{ template.name }}
                 </div>
@@ -82,12 +86,13 @@
 
 <script setup lang="ts">
 import leftSvg from '@/icon/left.vue';
-import { Template } from '@/schema/default';
+import { iconList, Template } from '@/schema/default';
 import { downloadFileByUrl, generateImage, generatePdf } from '@/utils/dom';
 import { ref } from 'vue';
 
 const props = defineProps<{
     templates: Template[];
+    timerNum: number;
 }>();
 const shrink = ref<boolean>(false);
 
@@ -144,7 +149,10 @@ const download = async (type: DownloadType) => {
             padding: 0;
         }
     }
-
+    .timer {
+        text-align: center;
+        width: 100%;
+    }
     &-top {
         display: flex;
         align-items: center;

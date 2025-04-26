@@ -28,13 +28,26 @@
                 >{{ $t('header.login') }}</el-button
             >
         </div>
-        <div v-else class="user">
-            <el-image :src="Avatar" class="user-avatar" />
-            <div class="user-desc">
-                <div class="user-desc-name">{{ userStore.username }}</div>
-                <div class="user-desc-welcome">
-                    {{ $t('header.welcome') + userStore.username }}
+        <div
+            v-else
+            class="user"
+            @mouseenter="toggleMenu"
+            @mouseleave="toggleMenu"
+        >
+            <div class="user-container">
+                <el-image :src="Avatar" class="user-avatar" />
+                <div class="user-desc">
+                    <div class="user-desc-name">{{ userStore.username }}</div>
+                    <div class="user-desc-welcome">
+                        {{ $t('header.welcome') + userStore.username }}
+                    </div>
                 </div>
+            </div>
+
+            <div v-if="userMenuFlag" class="user-menu">
+                <ul class="user-menu_wrapper">
+                    <li class="user-menu_item" @click="logout">退出登录</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -49,7 +62,7 @@ import { onMounted, onUnmounted, watch } from 'vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useWindowScroll } from '@vueuse/core';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import LOGO from '@/assets/logo.png';
 import themeSwitch from '@/components/theme-switch.vue';
 import LoginRegisterCard from '@/components/login-register-card.vue';
@@ -59,6 +72,7 @@ import eventBus from '@/utils/eventBus';
 
 const route = useRoute();
 const userStore = useUserStore();
+const userMenuFlag = ref(false);
 
 // login
 const visible = ref(false);
@@ -72,6 +86,12 @@ onMounted(() => {
 onUnmounted(() => {
     eventBus.off('login');
 });
+
+// logout
+const logout = () => {
+    userStore.logout();
+    useRouter().replace('/home');
+};
 
 // i18n
 const I18n = useI18n();
@@ -105,6 +125,11 @@ watch(y, (newVal, oldVal) => {
         }
     }
 });
+
+// user
+const toggleMenu = () => {
+    userMenuFlag.value = !userMenuFlag.value;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -153,10 +178,13 @@ watch(y, (newVal, oldVal) => {
         }
     }
     .user {
-        display: flex;
-        align-items: center;
         height: 100%;
         margin-right: 20px;
+        &-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
 
         &-avatar {
             height: 60%;
@@ -172,6 +200,28 @@ watch(y, (newVal, oldVal) => {
             &-welcome {
                 font-size: 10px;
                 @include font_color_secondary();
+            }
+        }
+        &-menu {
+            padding: 0 2.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 3rem;
+            top: 5rem;
+            border-radius: 0 0 10px 10px;
+            right: 1rem;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.7);
+            position: absolute;
+            z-index: 10000;
+
+            &_item {
+                &:hover {
+                    color: #409eff;
+                }
+                &:not(:last-child) {
+                    border-bottom: 1px solid rgba(17, 17, 17, 0.3);
+                }
             }
         }
     }

@@ -11,16 +11,15 @@ import Logo from '@/assets/logo.png';
 export type Template = {
     name: string;
     display: boolean;
-    icon: Component;
     hideItemHeader?: boolean;
     data: Record<string, any>[];
     style: Record<string, Record<string, string>>;
 };
+export const iconList = [House, School, OfficeBuilding, Link, Notebook, User];
 export const defaultTemplates = ref<Template[]>([
     {
         name: '个人简介',
         display: true,
-        icon: House,
         data: [
             {
                 logo: 'https://www.uestc.edu.cn/c13209856342b0df2c7ee4eaeb07db5a.png',
@@ -54,7 +53,6 @@ export const defaultTemplates = ref<Template[]>([
     {
         name: '教育经历',
         display: true,
-        icon: School,
         data: [
             {
                 title: '简小历大学',
@@ -86,7 +84,6 @@ export const defaultTemplates = ref<Template[]>([
     {
         name: '实习经历',
         display: true,
-        icon: OfficeBuilding,
         data: [
             {
                 title: 'Tesla',
@@ -120,7 +117,6 @@ export const defaultTemplates = ref<Template[]>([
     {
         name: '项目经历',
         display: true,
-        icon: Link,
         data: [
             {
                 title: 'Tesla',
@@ -152,7 +148,6 @@ export const defaultTemplates = ref<Template[]>([
     {
         name: '技能',
         display: true,
-        icon: Notebook,
         hideItemHeader: true,
         data: [
             {
@@ -173,7 +168,6 @@ export const defaultTemplates = ref<Template[]>([
     {
         name: '自我介绍',
         display: true,
-        icon: User,
         hideItemHeader: true,
         data: [
             {

@@ -1,5 +1,5 @@
 import * as I from '@/interface/index.d';
-import { get, post } from '@/utils/request';
+import { get, post, put } from '@/utils/request';
 
 const login = async (params: I.User.Login.Req) => {
     const res = (await post('/auth/login', params)) as I.User.Login.Res;
@@ -16,8 +16,14 @@ const getCaptcha = async () => {
     return res;
 };
 
+const updateUser = async (id: string, params: I.User.updateUser.Req) => {
+    const res = (await put(`/user/${id}`, params)) as I.User.updateUser.Res;
+    return res;
+};
+
 export default class UserServer {
     static login = login;
     static register = register;
     static getCaptcha = getCaptcha;
+    static updateUser = updateUser;
 }

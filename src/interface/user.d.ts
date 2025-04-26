@@ -43,3 +43,14 @@ export namespace GetCaptcha {
         value: string;
     }>;
 }
+
+/* 修改简历 */
+export namespace updateUser {
+    export type Req = {
+        password?: string;
+        username?: string;
+        resume?: string;
+        captcha?: string;
+    };
+    export type Res = apiRes<null>;
+}

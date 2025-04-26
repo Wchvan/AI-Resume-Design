@@ -1,3 +1,4 @@
+import useUserStore from '@/store/user';
 import axios, { AxiosInstance } from 'axios';
 import type {
     InternalAxiosRequestConfig,
@@ -5,9 +6,6 @@ import type {
     AxiosError,
 } from 'axios';
 import { ElMessage } from 'element-plus';
-// import useAdminStore from '@/store/admin/admin';
-import { useRouter } from 'vue-router';
-
 const baseURL = '/api';
 
 axios.defaults.withCredentials = true;
@@ -22,7 +20,8 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         // 在发送请求之前做些什么
-        // config.headers['token'] = useAdminStore().token;
+        config.headers['Authorization'] =
+            'Bearer ' + useUserStore().access_token;
         config.headers['Access-Control-Allow-Credentials'] = 'true';
         return config;
     },
