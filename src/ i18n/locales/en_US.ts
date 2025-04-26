@@ -14,6 +14,10 @@ export default {
         explore: 'Explore',
         subtitle: 'AI Resume Design',
         desc: '「Jian Xiao Li」 is not just a resume assistant. Instead, it uses AI to help engineers create simple and good-looking resumes, enabling others to know us better.',
+        section1: 'Jian Xiaoli, Professional AI Resume Assistant',
+        about: 'About Us',
+        introduction: 'Introduction',
+        team: 'Team',
     },
     login: {
         login: 'Login',

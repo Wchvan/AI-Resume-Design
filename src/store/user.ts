@@ -62,7 +62,11 @@ const useUserStore = defineStore(
         };
 
         const saveResume = async () => {
-            if (editJournal.put(cloneDeep(resume.value) && id.value)) {
+            if (
+                editJournal.put(
+                    cloneDeep(resume.value) && id.value && id.value !== '',
+                )
+            ) {
                 UserServer.updateUser(id.value, {
                     resume: JSON.stringify(resume.value),
                 });
